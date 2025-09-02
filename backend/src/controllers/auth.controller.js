@@ -36,10 +36,11 @@ export const register = async (req , res)=>{
         })
 
         res.cookie("jwt" , token , {
-            httpOnly:true,
-            sameSite:"strict",
-            secure:process.env.NODE_ENV !== "development",
-            maxAge:1000 * 60 * 60 * 24 * 7 // 7 days
+            httpOnly: true,
+            // Allow cross-site cookies (Vercel frontend -> Render backend)
+            sameSite: "none",
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 1000 * 60 * 60 * 24 * 7
         })
 
         res.status(201).json({
@@ -91,10 +92,10 @@ export const login = async (req , res)=>{
         })
 
         res.cookie("jwt" , token , {
-            httpOnly:true,
-            sameSite:"strict",
-            secure:process.env.NODE_ENV !== "development",
-            maxAge:1000 * 60 * 60 * 24 * 7 // 7 days
+            httpOnly: true,
+            sameSite: "none",
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 1000 * 60 * 60 * 24 * 7
         })
 
         res.status(200).json({
@@ -122,9 +123,9 @@ export const login = async (req , res)=>{
 export const logout = async (req , res)=>{
     try {
         res.clearCookie("jwt" , {
-            httpOnly:true,
-            sameSite:"strict",
-            secure:process.env.NODE_ENV !== "development",
+            httpOnly: true,
+            sameSite: "none",
+            secure: process.env.NODE_ENV !== "development",
         })
 
         res.status(200).json({
